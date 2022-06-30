@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-depl
+spec:
+  replicas: 1
+  # step 1
+  # selector is telling Deployment how to find pods its going to create
+  selector:
+    matchLabels:
+      app: auth
+  # step 2
+  # how to create each pods deployment is going to create
+  template:
+    metadata:
+      labels:
+        app: auth
+    # spec, tell pod how to behave
+    spec:
+      containers:
+        # dash indicates array entry
+        - name: auth
+          image: cube101/auth
+---
+# default type is ClusterIP service
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-srv
+spec:
+  selector:
+    app: auth
+  ports:
+    - name: auth
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
