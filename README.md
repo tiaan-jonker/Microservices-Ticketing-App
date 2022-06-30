@@ -47,3 +47,14 @@ Essentially one service is created for each resource.
 - Order: OrderCreated, OrderCancelled, OrderExpired
 - Ticket: TicketCreated, TicketUpdated
 - Charge: ChargeCreated
+
+### Routes
+Auth
+Route                     | Method | Body                    | Purpose
+--------------------------|--------|-------------------------|--------------
+/api/v1/users/signup      | POST   | {email: S, passowrd: S} | Sign up for acc
+/api/v1/users/signin      | POST   | same                    | Sign in for existing acc
+/api/v1/users/signout     | POST   | {}                      | Sign out
+/api/v1/users/currentuser | GET    | -                       | Return info about user
+
+
