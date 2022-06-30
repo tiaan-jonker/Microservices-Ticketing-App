@@ -36,6 +36,14 @@ stripeRefundId  | String
 ### Services
 - Auth: related to user auth (signup/signin/signout)
 - Tickets: creating/editing. Knows whether a ticker can be updated
-- Orders: creation/editing
+- Orders: order creation/editing
 - Expiration: watches for orders to be created; cancels after XXX minutes
-- Payments: handles credit card payments. Cancels if payment fails; completes if payment succeeds
+- Payments: handles credit card payments. Cancels if payment fails; completes if payment succeeds (order status changes as well)
+
+Essentially one service is created for each resource. 
+
+### Events
+- Users: UserCreated, UserUpdated
+- Order: OrderCreated, OrderCancelled, OrderExpired
+- Ticket: TicketCreated, TicketUpdated
+- Charge: ChargeCreated
