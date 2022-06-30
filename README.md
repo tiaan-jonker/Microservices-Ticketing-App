@@ -32,3 +32,10 @@ Status          | Created, Fialed, Completed
 Amount          | Number
 stripeId        | String
 stripeRefundId  | String
+
+### Services
+- Auth: related to user auth (signup/signin/signout)
+- Tickets: creating/editing. Knows whether a ticker can be updated
+- Orders: creation/editing
+- Expiration: watches for orders to be created; cancels after XXX minutes
+- Payments: handles credit card payments. Cancels if payment fails; completes if payment succeeds
