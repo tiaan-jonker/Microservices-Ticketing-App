@@ -1,5 +1,15 @@
 import { ValidationError } from 'express-validator'
 
+// option #1 for type check
+// interface CustomError {
+//   statusCode: number
+//   serializedErrors(): {
+//     message: string
+//     field?: string
+//   }[]
+// }
+// add: implements CustomError at end of class extn.
+
 // extending the class Error which is built into JS
 export class ReqValidationError extends Error {
   statusCode = 400
