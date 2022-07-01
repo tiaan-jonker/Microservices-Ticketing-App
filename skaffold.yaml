@@ -1,0 +1,22 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    # do not push up to docker hub
+    push: false
+  # everything thats going to be built
+  artifacts:
+    - image: cube101/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      # how to handle any auth file changes
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            # where to sync file to inside running container
+            dest: .
