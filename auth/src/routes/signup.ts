@@ -21,12 +21,13 @@ router.post(
     // if errors is not empty then true
     if (!errors.isEmpty()) {
       console.log({ errors: errors.array() })
-      return res.status(400).json({ errors: errors.array() })
+      throw new Error('Invalid email or password')
     }
 
     const { name, email, password } = req.body
 
-    console.log('Creating a user')
+    console.log('Created a user')
+    // throw new Error('Error connecting to database')
 
     res.send({ message: 'Success' })
   }

@@ -8,6 +8,8 @@ import { signinRouter } from './routes/signin'
 import { signoutRouter } from './routes/signout'
 import { signupRouter } from './routes/signup'
 
+import { errorHandler } from './middlewares/errorHandler'
+
 const server = express()
 server.use(json())
 
@@ -17,6 +19,9 @@ server.use('/api/v1/users', currentUserRouter)
 server.use('/api/v1/users', signinRouter)
 server.use('/api/v1/users', signoutRouter)
 server.use('/api/v1/users', signupRouter)
+
+// Error handling
+server.use(errorHandler)
 
 // Port config
 const PORT = process.env.PORT || 3000
