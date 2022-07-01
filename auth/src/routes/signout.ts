@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/currentuser', (req: any, res: any) => {
+router.post('/signout', (req: any, res: any) => {
   res.send('Working')
 })
 
-export { router as currentUserRouter }
+export { router as signoutRouter }

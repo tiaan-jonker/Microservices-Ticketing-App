@@ -3,13 +3,20 @@ import { json } from 'body-parser'
 const colors = require('colors')
 
 // Routes imports
-const currentUser = require('./routes/currentUser')
+import { currentUserRouter } from './routes/currentUser'
+import { signinRouter } from './routes/signin'
+import { signoutRouter } from './routes/signout'
+import { signupRouter } from './routes/signup'
 
 const server = express()
 server.use(json())
 
 // Routes
-server.use('/api/v1/users', currentUser)
+// Users
+server.use('/api/v1/users', currentUserRouter)
+server.use('/api/v1/users', signinRouter)
+server.use('/api/v1/users', signoutRouter)
+server.use('/api/v1/users', signupRouter)
 
 // Port config
 const PORT = process.env.PORT || 3000
