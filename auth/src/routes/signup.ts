@@ -17,7 +17,7 @@ router.post(
       .trim()
       .isLength({ min: 6, max: 20 }),
   ],
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     // validate req object first
     const errors = validationResult(req)
 

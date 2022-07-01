@@ -1,4 +1,5 @@
 import express from 'express'
+import 'express-async-errors'
 import { json } from 'body-parser'
 const colors = require('colors')
 
@@ -21,7 +22,7 @@ server.use('/api/v1/users', signinRouter)
 server.use('/api/v1/users', signoutRouter)
 server.use('/api/v1/users', signupRouter)
 
-server.get('*', () => {
+server.all('*', async (req, res) => {
   throw new NotFoundError()
 })
 // Error handling
