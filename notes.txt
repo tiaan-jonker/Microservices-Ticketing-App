@@ -1,5 +1,5 @@
 Dependencies:
-- typescript ts-node-dev express @types/express colors
+- typescript ts-node-dev express @types/express colors express-validator
 
 Important: 
 Add: --poll to start script so skaffold registers each change
