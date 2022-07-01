@@ -9,6 +9,7 @@ import { signoutRouter } from './routes/signout'
 import { signupRouter } from './routes/signup'
 
 import { errorHandler } from './middlewares/errorHandler'
+import { NotFoundError } from './errors/notFoundError'
 
 const server = express()
 server.use(json())
@@ -20,6 +21,9 @@ server.use('/api/v1/users', signinRouter)
 server.use('/api/v1/users', signoutRouter)
 server.use('/api/v1/users', signupRouter)
 
+server.get('*', () => {
+  throw new NotFoundError()
+})
 // Error handling
 server.use(errorHandler)
 
