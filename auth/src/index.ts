@@ -2,14 +2,17 @@ import express from 'express'
 import { json } from 'body-parser'
 const colors = require('colors')
 
-const PORT = process.env.PORT || 3000
+// Routes imports
+const currentUser = require('./routes/currentUser')
 
 const server = express()
 server.use(json())
 
-server.get('/api/v1/users/currentuser', (req, res) => {
-  res.send('It is working')
-})
+// Routes
+server.use('/api/v1/users', currentUser)
+
+// Port config
+const PORT = process.env.PORT || 3000
 
 server.listen(PORT, () => {
   console.log(colors.green.bold(`Server listening on port: ${PORT}`))
