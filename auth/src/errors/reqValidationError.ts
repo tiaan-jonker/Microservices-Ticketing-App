@@ -9,3 +9,21 @@ export class ReqValidationError extends Error {
     Object.setPrototypeOf(this, ReqValidationError.prototype)
   }
 }
+
+/*
+ValidationError array props:
+
+(alias) type ValidationError = {
+  param: '_error';
+  msg: any;
+  nestedErrors: ValidationError[];
+  location?: undefined;
+  value?: undefined;
+} | {
+  location: Location;
+  param: string;
+  value: any;
+  msg: any;
+  nestedErrors?: unknown[] | undefined;
+}
+*/
