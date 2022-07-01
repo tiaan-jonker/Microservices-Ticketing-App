@@ -1,4 +1,5 @@
 import { ValidationError } from 'express-validator'
+import { CustomError } from './customError'
 
 // option #1 for type check
 // interface CustomError {
@@ -11,7 +12,7 @@ import { ValidationError } from 'express-validator'
 // add: implements CustomError at end of class extn.
 
 // extending the class Error which is built into JS
-export class ReqValidationError extends Error {
+export class ReqValidationError extends CustomError {
   statusCode = 400
 
   constructor(public errors: ValidationError[]) {
