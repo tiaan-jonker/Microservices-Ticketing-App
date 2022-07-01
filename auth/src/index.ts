@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000
 const server = express()
 server.use(json())
 
-server.get('/api/users/currentuser', (req, res) => {
+server.get('/api/v1/users/currentuser', (req, res) => {
   res.send('It is working')
 })
 
