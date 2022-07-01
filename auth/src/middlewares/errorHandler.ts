@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { ReqValidationError } from '../errors/reqValidationError'
-import { DBConnectionError } from '../errors/dbConnectionError'
+import { CustomError } from '../errors/customError'
 
 // Exported and used in index, this error message will get used
 export const errorHandler = (
@@ -9,11 +8,7 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  if (err instanceof ReqValidationError) {
-    return res.status(err.statusCode).send({ errors: err.serializedErrors() })
-  }
-
-  if (err instanceof DBConnectionError) {
+  if (err instanceof CustomError) {
     return res.status(err.statusCode).send({ errors: err.serializedErrors() })
   }
 

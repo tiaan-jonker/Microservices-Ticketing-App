@@ -16,7 +16,7 @@ export class ReqValidationError extends CustomError {
   statusCode = 400
 
   constructor(public errors: ValidationError[]) {
-    super()
+    super('Error connecting to database')
 
     // only because a built-in class is being extended
     Object.setPrototypeOf(this, ReqValidationError.prototype)

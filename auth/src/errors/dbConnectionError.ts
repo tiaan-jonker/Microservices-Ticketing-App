@@ -5,7 +5,7 @@ export class DBConnectionError extends CustomError {
   message = 'Error connecting to database'
 
   constructor() {
-    super()
+    super('Invalid req parameters')
 
     Object.setPrototypeOf(this, DBConnectionError.prototype)
   }
