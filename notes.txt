@@ -1,6 +1,6 @@
 Dependencies:
 - typescript ts-node-dev express @types/express colors express-validator
-- 
+- express-async-errors mongoose 
 Important: 
 Add: --poll to start script so skaffold registers each change
 

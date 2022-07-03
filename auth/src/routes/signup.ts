@@ -8,6 +8,12 @@ const router = express.Router()
 // @route   POST api/v1/users/signup
 // @desc
 // @access
+
+// auth steps
+// 1. email already exists: respond with error
+// 2. does not exist: create new user and save to DB
+// 3. hash password (don't save password in plain text)
+// 4. then log-in: send back cookie/jwt/other
 router.post(
   '/signup',
   [

@@ -3,6 +3,8 @@ import 'express-async-errors'
 import { json } from 'body-parser'
 const colors = require('colors')
 
+import { connectDB } from '../config/db'
+
 // Routes imports
 import { currentUserRouter } from './routes/currentUser'
 import { signinRouter } from './routes/signin'
@@ -12,11 +14,11 @@ import { signupRouter } from './routes/signup'
 import { errorHandler } from './middlewares/errorHandler'
 import { NotFoundError } from './errors/notFoundError'
 
+connectDB()
 const server = express()
 server.use(json())
 
 // Routes
-// Users
 server.use('/api/v1/users', currentUserRouter)
 server.use('/api/v1/users', signinRouter)
 server.use('/api/v1/users', signoutRouter)
