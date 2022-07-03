@@ -1,19 +1,22 @@
 import express, { Request, Response } from 'express'
 import { body, validationResult } from 'express-validator'
+import { User } from '../models/user'
 import { ReqValidationError } from '../errors/reqValidationError'
 import { DBConnectionError } from '../errors/dbConnectionError'
+import { BadRequestError } from '../errors/badRequestError'
 
 const router = express.Router()
 
 // @route   POST api/v1/users/signup
-// @desc
-// @access
+// @desc    Register a new user route
+// @access  Public
 
 // auth steps
 // 1. email already exists: respond with error
 // 2. does not exist: create new user and save to DB
 // 3. hash password (don't save password in plain text)
 // 4. then log-in: send back cookie/jwt/other
+
 router.post(
   '/signup',
   [
@@ -33,12 +36,22 @@ router.post(
       throw new ReqValidationError(errors.array())
     }
 
+    //* Info from body
     const { name, email, password } = req.body
 
-    console.log('Created a user')
-    throw new DBConnectionError()
+    // Check existing user
+    const existingUser = await User.findOne({ email })
+    if (existingUser) {
+      throw new BadRequestError('User already exists')
+    }
 
-    res.send({ message: 'Success' })
+    // Create new user
+    const user = User.build({ name, email, password })
+
+    // Save new user
+    await user.save()
+
+    res.status(201).send(user)
   }
 )
 

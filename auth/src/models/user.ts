@@ -7,7 +7,6 @@ interface UserAttributes {
   name: string
   email: string
   password: string
-  date: Date
 }
 
 // Interface describing the props that a User Model has
@@ -25,7 +24,6 @@ interface UserDocument extends mongoose.Document {
   name: string
   email: string
   password: string
-  date: Date
 }
 
 const UserSchema = new Schema({
@@ -41,10 +39,6 @@ const UserSchema = new Schema({
   password: {
     type: String,
     require: true,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
   },
 })
 // For effective type checking, cannot use new User,
