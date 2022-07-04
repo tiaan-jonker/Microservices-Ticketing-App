@@ -10,12 +10,14 @@ const router = express.Router()
 // @route   POST api/v1/users/signup
 // @desc    Register a new user route
 // @access  Public
+// @endpoint ticketing.dev/api/v1/users/signup
 
 // auth steps
 // 1. email already exists: respond with error
 // 2. does not exist: create new user and save to DB
-// 3. hash password (don't save password in plain text)
-// 4. then log-in: send back cookie/jwt/other
+// 3. hash password (don't save password in plain text) -> in utils/passwordHash.ts
+// 4. perform hashing in the model
+// 5. then log-in: send back cookie/jwt/other
 
 router.post(
   '/signup',
