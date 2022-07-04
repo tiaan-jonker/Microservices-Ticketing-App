@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express'
 import { body, validationResult } from 'express-validator'
+import jwt from 'jsonwebtoken'
+
 import { User } from '../models/user'
 import { ReqValidationError } from '../errors/reqValidationError'
 import { DBConnectionError } from '../errors/dbConnectionError'
@@ -19,6 +21,10 @@ const router = express.Router()
 // 4. perform hashing in the model
 // 5. then log-in: send back cookie/jwt/other
 
+// for other services the user would need to be authed. However,
+// with sync req there is the issue of the auth service being down
+// solution is 'teach' each service to if user is authed. No reliance on auth service
+
 router.post(
   '/signup',
   [
@@ -29,6 +35,8 @@ router.post(
       .isLength({ min: 6, max: 20 }),
   ],
   async (req: Request, res: Response) => {
+    const { name, email, password } = req.body
+
     // validate req object first
     const errors = validationResult(req)
 
@@ -38,23 +46,38 @@ router.post(
       throw new ReqValidationError(errors.array())
     }
 
-    //* Info from body
-    const { name, email, password } = req.body
-
     // Check existing user
     const existingUser = await User.findOne({ email })
     if (existingUser) {
       throw new BadRequestError('User already exists')
     }
 
-    // Create new user
+    // Create new user then save
     const user = User.build({ name, email, password })
-
-    // Save new user
     await user.save()
+
+    // Generate JWT
+    const userJwt = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+      },
+      'temp'
+    )
+
+    // Store it on session obj
+    req.session = {
+      jwt: userJwt,
+    }
 
     res.status(201).send(user)
   }
 )
 
 export { router as signupRouter }
+
+// other
+// take session cookie
+// use base64decode to get jwt
+// use jwt to decode with secret key
+// need a way to share secret key between services

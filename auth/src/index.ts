@@ -2,7 +2,7 @@ import express from 'express'
 import 'express-async-errors'
 import { json } from 'body-parser'
 const colors = require('colors')
-
+import cookieSession from 'cookie-session'
 import { connectDB } from '../config/db'
 
 // Routes imports
@@ -16,7 +16,17 @@ import { NotFoundError } from './errors/notFoundError'
 
 connectDB()
 const server = express()
+// Express sees things are proxyd, but behind nginx and ingress
+// set Express to trust proxy
+server.set('trust proxy', true)
 server.use(json())
+// Disabling cookie encryption as JWT handles that
+server.use(
+  cookieSession({
+    signed: false,
+    secure: true,
+  })
+)
 
 // Routes
 server.use('/api/v1/users', currentUserRouter)
