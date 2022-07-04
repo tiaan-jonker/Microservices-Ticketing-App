@@ -14,7 +14,6 @@ import { signupRouter } from './routes/signup'
 import { errorHandler } from './middlewares/errorHandler'
 import { NotFoundError } from './errors/notFoundError'
 
-connectDB()
 const server = express()
 // Express sees things are proxyd, but behind nginx and ingress
 // set Express to trust proxy
@@ -40,9 +39,23 @@ server.all('*', async (req, res) => {
 // Error handling
 server.use(errorHandler)
 
-// Port config
-const PORT = process.env.PORT || 3000
+const startServer = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error('JWT_KEY must be defined')
+  }
 
-server.listen(PORT, () => {
-  console.log(colors.green.bold(`Server listening on port: ${PORT}`))
-})
+  try {
+    connectDB()
+  } catch (error) {
+    console.error(error)
+  }
+
+  // Port config
+  const PORT = process.env.PORT || 3000
+
+  server.listen(PORT, () => {
+    console.log(colors.green.bold(`Server listening on port: ${PORT}`))
+  })
+}
+
+startServer()

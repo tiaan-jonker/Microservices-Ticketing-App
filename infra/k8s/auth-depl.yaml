@@ -21,6 +21,13 @@ spec:
         # dash indicates array entry
         - name: auth
           image: cube101/auth
+          # this to include/use the secret JWT_KEY
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
 ---
 # default type is ClusterIP service
 apiVersion: v1

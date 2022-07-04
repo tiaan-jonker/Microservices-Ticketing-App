@@ -27,21 +27,35 @@ interface UserDocument extends mongoose.Document {
   password: string
 }
 
-const UserSchema = new Schema({
-  name: {
-    type: String,
-    require: true,
+const UserSchema = new Schema(
+  {
+    name: {
+      type: String,
+      require: true,
+    },
+    email: {
+      type: String,
+      require: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      require: true,
+    },
   },
-  email: {
-    type: String,
-    require: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    require: true,
-  },
-})
+  {
+    // user returns password and __v; undesirable
+    // _id is unusual, chang eit to just id
+    toJSON: {
+      transform: (doc, ret) => {
+        ret.id = ret._id
+        delete ret._id
+        delete ret.password
+        delete ret.__v
+      },
+    },
+  }
+)
 
 // using function to get access to 'this
 UserSchema.pre('save', async function (done) {

@@ -6,7 +6,8 @@ Important:
 Add: --poll to start script so skaffold registers each change
 
 Generating secret key shared through kubernetes:
-kubectl create secret generic jwt-secret --from-literal=jwt=SECRETKEY
+kubectl create secret generic jwt-secret --from-literal=JWT_KEY=SECRETKEY
+to see secrets: kubectl get secrets
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress

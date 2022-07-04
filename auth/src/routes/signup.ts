@@ -57,12 +57,17 @@ router.post(
     await user.save()
 
     // Generate JWT
+    if (!process.env.JWT_KEY) {
+      throw new Error('JWT_KEY must be defined')
+    }
+
     const userJwt = jwt.sign(
       {
         id: user._id,
         email: user.email,
       },
-      'temp'
+      // Type check in index.ts
+      process.env.JWT_KEY!
     )
 
     // Store it on session obj
@@ -76,7 +81,7 @@ router.post(
 
 export { router as signupRouter }
 
-// other
+// Other notes on JWT:
 // take session cookie
 // use base64decode to get jwt
 // use jwt to decode with secret key
