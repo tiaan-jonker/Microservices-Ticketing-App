@@ -1,10 +1,9 @@
 import express, { Request, Response } from 'express'
-import { body, validationResult } from 'express-validator'
+import { body } from 'express-validator'
 import jwt from 'jsonwebtoken'
 
+import { validateReq } from '../middlewares/validateReq'
 import { User } from '../models/user'
-import { ReqValidationError } from '../errors/reqValidationError'
-import { DBConnectionError } from '../errors/dbConnectionError'
 import { BadRequestError } from '../errors/badRequestError'
 
 const router = express.Router()
@@ -28,23 +27,14 @@ const router = express.Router()
 router.post(
   '/signup',
   [
-    body('name', 'Name required').notEmpty(),
     body('email', 'Please include valid email').isEmail(),
     body('password', 'Password length must be between 6 and 20 characters')
       .trim()
       .isLength({ min: 6, max: 20 }),
   ],
+  validateReq,
   async (req: Request, res: Response) => {
     const { name, email, password } = req.body
-
-    // validate req object first
-    const errors = validationResult(req)
-
-    // if errors is not empty then true
-    if (!errors.isEmpty()) {
-      // rather than just throwing the generic Error
-      throw new ReqValidationError(errors.array())
-    }
 
     // Check existing user
     const existingUser = await User.findOne({ email })
@@ -57,10 +47,6 @@ router.post(
     await user.save()
 
     // Generate JWT
-    if (!process.env.JWT_KEY) {
-      throw new Error('JWT_KEY must be defined')
-    }
-
     const userJwt = jwt.sign(
       {
         id: user._id,

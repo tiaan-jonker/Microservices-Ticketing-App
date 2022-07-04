@@ -15,6 +15,7 @@ import { errorHandler } from './middlewares/errorHandler'
 import { NotFoundError } from './errors/notFoundError'
 
 const server = express()
+const baseApiV1 = '/api/v1/users'
 // Express sees things are proxyd, but behind nginx and ingress
 // set Express to trust proxy
 server.set('trust proxy', true)
@@ -28,10 +29,10 @@ server.use(
 )
 
 // Routes
-server.use('/api/v1/users', currentUserRouter)
-server.use('/api/v1/users', signinRouter)
-server.use('/api/v1/users', signoutRouter)
-server.use('/api/v1/users', signupRouter)
+server.use(baseApiV1, currentUserRouter)
+server.use(baseApiV1, signinRouter)
+server.use(baseApiV1, signoutRouter)
+server.use(baseApiV1, signupRouter)
 
 server.all('*', async (req, res) => {
   throw new NotFoundError()

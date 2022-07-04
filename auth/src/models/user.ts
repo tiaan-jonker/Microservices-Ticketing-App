@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 const { Schema } = mongoose
-import { Password } from './../utils/passwordHash'
+import { PasswordManager } from './../utils/passwordHash'
 
 // Interface describing the props required to create new User
 
@@ -29,10 +29,6 @@ interface UserDocument extends mongoose.Document {
 
 const UserSchema = new Schema(
   {
-    name: {
-      type: String,
-      require: true,
-    },
     email: {
       type: String,
       require: true,
@@ -60,7 +56,7 @@ const UserSchema = new Schema(
 // using function to get access to 'this
 UserSchema.pre('save', async function (done) {
   if (this.isModified('password')) {
-    const hashed = await Password.toHash(this.get('password'))
+    const hashed = await PasswordManager.toHash(this.get('password'))
     this.set('password', hashed)
   }
   // call after all async work is done

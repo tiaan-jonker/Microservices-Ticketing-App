@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { CustomError } from '../errors/customError'
 
 // Exported and used in index, this error message will get used
+// capture errors
 export const errorHandler = (
   err: Error,
   req: Request,
