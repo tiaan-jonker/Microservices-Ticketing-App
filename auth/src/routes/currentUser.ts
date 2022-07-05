@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
+import { currentUser } from './../middlewares/currentUser'
+import { requireAuth } from '../middlewares/requireAuth'
 const router = express.Router()
 
 // @route   GET api/v1/users/currentuser
@@ -15,18 +16,15 @@ const router = express.Router()
 
 // session cookie is included. If cookie is deleted the current user should be null
 
-router.get('/currentuser', (req: Request, res: Response) => {
-  if (!req.session?.jwt) {
-    return res.send({ currentUser: null })
+// don't forget currentUser middleware
+router.get(
+  '/currentuser',
+  currentUser,
+  requireAuth,
+  (req: Request, res: Response) => {
+    // req.currentUser is the json payload
+    res.send({ currentUser: req.currentUser || null })
   }
-
-  try {
-    const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!)
-
-    res.send({ currentUser: payload })
-  } catch (error) {
-    res.send({ currentUser: null })
-  }
-})
+)
 
 export { router as currentUserRouter }
