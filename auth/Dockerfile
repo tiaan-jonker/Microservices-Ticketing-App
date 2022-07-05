@@ -5,7 +5,7 @@ WORKDIR /app
 # copy over only package.json
 COPY package.json .
 # install all dependencies
-RUN npm install
+RUN npm install --only=prod
 # copy over everything else from into /app folder
 COPY . . 
 
