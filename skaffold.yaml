@@ -20,3 +20,11 @@ build:
           - src: 'src/**/*.ts'
             # where to sync file to inside running container
             dest: .
+    - image: cube101/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.jsx'
+            dest: .
