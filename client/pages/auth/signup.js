@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Router from 'next/router'
 import useRequest from '../../hooks/useRequest'
 
 //@page-route  ticketing.dev/auth/signup
@@ -14,12 +15,12 @@ const Signup = () => {
       email,
       password,
     },
+    onSuccess: () => Router.push('/'),
   })
 
   const handleSubmit = async (evt) => {
     evt.preventDefault()
-
-    executeRequest()
+    await executeRequest()
   }
 
   return (
@@ -44,7 +45,7 @@ const Signup = () => {
             onChange={(evt) => setPassword(evt.target.value)}
           />
         </div>
-        {errors ? errors : ''}
+        {errors}
         <button className='btn btn-primary'>Sign Up</button>
       </form>
     </div>

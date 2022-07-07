@@ -34,7 +34,7 @@ router.post(
   ],
   validateReq,
   async (req: Request, res: Response) => {
-    const { name, email, password } = req.body
+    const { email, password } = req.body
 
     // Check existing user
     const existingUser = await User.findOne({ email })
@@ -43,7 +43,7 @@ router.post(
     }
 
     // Create new user then save
-    const user = User.build({ name, email, password })
+    const user = User.build({ email, password })
     await user.save()
 
     // Generate JWT

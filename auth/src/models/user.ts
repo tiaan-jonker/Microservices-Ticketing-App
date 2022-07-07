@@ -5,7 +5,6 @@ import { PasswordManager } from './../utils/passwordHash'
 // Interface describing the props required to create new User
 
 interface UserAttributes {
-  name: string
   email: string
   password: string
 }
@@ -22,7 +21,6 @@ interface UserModel extends mongoose.Model<UserDocument> {
 // that is a single user has
 
 interface UserDocument extends mongoose.Document {
-  name: string
   email: string
   password: string
 }
@@ -53,7 +51,7 @@ const UserSchema = new Schema(
   }
 )
 
-// using function to get access to 'this
+// using function to get access to 'this'
 UserSchema.pre('save', async function (done) {
   if (this.isModified('password')) {
     const hashed = await PasswordManager.toHash(this.get('password'))

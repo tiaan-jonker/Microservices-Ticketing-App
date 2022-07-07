@@ -8,13 +8,16 @@ import { useState } from 'react'
 // There will be function to execute the request and
 // will capture and contain any errors after the req was made, if any
 
-const useRequest = ({ url, method, body }) => {
+const useRequest = ({ url, method, body, onSuccess }) => {
   const [errors, setErrors] = useState(null)
 
   const executeRequest = async () => {
     try {
       const response = await axios[method](url, body)
-      return response.data
+
+      if (onSuccess) {
+        onSuccess(response.data)
+      }
     } catch (err) {
       setErrors(
         <div className='alert alert-danger'>
