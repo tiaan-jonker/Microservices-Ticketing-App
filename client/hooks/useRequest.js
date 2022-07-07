@@ -11,21 +11,21 @@ import { useState } from 'react'
 const useRequest = ({ url, method, body }) => {
   const [errors, setErrors] = useState(null)
 
-  const executeRequest = () => {
+  const executeRequest = async () => {
     try {
       const response = await axios[method](url, body)
       return response.data
-    } catch (error) {
+    } catch (err) {
       setErrors(
-      <div className='alert alert-danger'>
-        <h4>Oh no! You missed something:</h4>
-        <ul className='my-0'>
-          {errors.response.data.errors.map((error) => (
-            <li key={error.message}>{error.message}</li>
-          ))}
-        </ul>
-      </div>
-    )
+        <div className='alert alert-danger'>
+          <h4>Oh no! You missed something:</h4>
+          <ul className='my-0'>
+            {err.response.data.errors.map((error) => (
+              <li key={error.message}>{error.message}</li>
+            ))}
+          </ul>
+        </div>
+      )
     }
   }
 

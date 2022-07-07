@@ -1,26 +1,25 @@
 import { useState } from 'react'
-import axios from 'axios'
+import useRequest from '../../hooks/useRequest'
 
 //@page-route  ticketing.dev/auth/signup
+//? fix errors display bug, does not go away when entering valid creds
 
 const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState([])
-
-  const api = '/api/v1/users/signup'
+  const { executeRequest, errors } = useRequest({
+    url: '/api/v1/users/signup',
+    method: 'post',
+    body: {
+      email,
+      password,
+    },
+  })
 
   const handleSubmit = async (evt) => {
     evt.preventDefault()
 
-    try {
-      const response = await axios.post(api, {
-        email,
-        password,
-      })
-    } catch (error) {
-      setErrors(error.response.data.errors)
-    }
+    executeRequest()
   }
 
   return (
@@ -45,16 +44,7 @@ const Signup = () => {
             onChange={(evt) => setPassword(evt.target.value)}
           />
         </div>
-        {errors.length > 0 && (
-          <div className='alert alert-danger'>
-            <h4>Oh no! You missed something:</h4>
-            <ul className='my-0'>
-              {errors.map((error) => (
-                <li key={error.message}>{error.message}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {errors ? errors : ''}
         <button className='btn btn-primary'>Sign Up</button>
       </form>
     </div>
