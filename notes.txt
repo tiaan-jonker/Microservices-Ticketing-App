@@ -2,7 +2,7 @@ Dependencies:
 - typescript ts-node-dev express @types/express colors express-validator
 - express-async-errors mongoose cookie-session @types/cookie-session jsonwebtoken @types/jsonwebtoken
 - --save-dev @types/jest @types/supertest jest ts-jest mongodb-memory-server
-- bootstrap
+- bootstrap axios
 
 Important: 
 Add: --poll to start script so skaffold registers each change
