@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import axios from 'axios'
 
+//@page-route  ticketing.dev/auth/signup
+
 const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -43,14 +45,16 @@ const Signup = () => {
             onChange={(evt) => setPassword(evt.target.value)}
           />
         </div>
-        <div className='alert alert-danger'>
-          <h4>Oh no!</h4>
-          <ul className='my-0'>
-            {errors.map((error) => (
-              <li key={error.message}>{error.message}</li>
-            ))}
-          </ul>
-        </div>
+        {errors.length > 0 && (
+          <div className='alert alert-danger'>
+            <h4>Oh no! You missed something:</h4>
+            <ul className='my-0'>
+              {errors.map((error) => (
+                <li key={error.message}>{error.message}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <button className='btn btn-primary'>Sign Up</button>
       </form>
     </div>
