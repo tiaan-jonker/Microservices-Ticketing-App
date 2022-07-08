@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 const { Schema } = mongoose
-import { PasswordManager } from './../utils/passwordHash'
+import { PasswordManager } from '../utils/passwordHash'
 
 // Interface describing the props required to create new User
 
